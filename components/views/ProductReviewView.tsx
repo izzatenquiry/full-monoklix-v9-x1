@@ -1031,7 +1031,7 @@ export const ProductReviewView: React.FC<ProductReviewViewProps> = ({ onReEdit, 
                  <div>
                     <label className="block text-sm font-medium mb-1">Bahasa Suara Latar</label>
                     <select value={videoLanguage} onChange={e=>setVideoLanguage(e.target.value)} className="w-full bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-300 dark:border-neutral-700 rounded-lg p-2 text-sm">
-                        {languages.map(o=><option key={o} value={o}>{o}</option>)}
+                        {languages.map(o=><option key={o}>{o}</option>)}
                     </select>
                 </div>
             </div>
@@ -1076,4 +1076,26 @@ export const ProductReviewView: React.FC<ProductReviewViewProps> = ({ onReEdit, 
                             <img src={`data:image/png;base64,${generatedImages[i]}`} alt={`Pratonton babak ${i+1}`} className="w-full h-full object-cover rounded-md"/>
                         )}
                     </div>
-                    <button onClick={() => handleGenerateVideo(i)} disabled={!generatedImages[i] || videoGenerationStatus[i] === 'loading' || isGeneratingVideos} className="w-full text-sm bg-white dark:bg-neutral-700 font-semibold py-2 px-3 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors disabled:opacity-50 flex
+                    <button onClick={() => handleGenerateVideo(i)} disabled={!generatedImages[i] || videoGenerationStatus[i] === 'loading' || isGeneratingVideos} className="w-full text-sm bg-white dark:bg-neutral-700 font-semibold py-2 px-3 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+                        {videoGenerationStatus[i] === 'loading' ? <Spinner/> : <><VideoIcon className="w-4 h-4"/> Cipta Video</>}
+                    </button>
+                </div>
+            ))}
+        </div>
+      </div>
+      
+      {itemToPreview && (
+        <PreviewModal
+          item={itemToPreview}
+          onClose={() => setPreviewingSceneIndex(null)}
+          getDisplayUrl={() => `data:image/png;base64,${itemToPreview.result as string}`}
+          onNext={handleNextPreview}
+          onPrevious={handlePreviousPreview}
+          hasNext={hasNextPreview}
+          hasPrevious={hasPreviousPreview}
+          language={language}
+        />
+      )}
+    </div>
+  );
+};
